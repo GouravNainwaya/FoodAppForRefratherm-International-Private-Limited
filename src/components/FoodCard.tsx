@@ -1,3 +1,4 @@
+import React, { memo, useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,53 +7,66 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import React, {memo, useCallback, useState} from 'react';
 import {
   responsiveHeight,
   responsiveWidth,
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
-import {useNavigation} from '@react-navigation/native';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackScreenProps  } from '@react-navigation/native-stack';
 
-const FoodCardTwo = ({
-  item,
-}) => {
-  const navigation = useNavigation();
+type RootStackParamList = {
+  DetailsScreen: { item: Item };
+};
+
+type FoodCardProps = {
+  item: Item;
+};
+
+type Item = {
+  title: string;
+  description: string;
+  image: string;
+};
+
+const FoodCardTwo: React.FC<FoodCardProps> = ({ item }) => {
+  const navigation = useNavigation<NativeStackScreenProps <RootStackParamList>>();
 
   return (
-    <View style={{margin: 10}}>
+    <View style={{ margin: 10 }}>
       <TouchableOpacity
-      activeOpacity={0.80}
-        onPress={() => navigation.navigate("DetailsScreen", {item})}>
+        activeOpacity={0.8}
+        onPress={() =>
+          navigation.navigate('DetailsScreen', { item: item })
+        }>
         <View
           style={{
             backgroundColor: '#ffffffff',
             elevation: 3,
-            // marginTop: 10,
             borderRadius: responsiveWidth(1.5),
             width: responsiveWidth(91),
           }}>
-          {/* <FordFOneFifty style={{borderRadius: responsiveWidth(3), resizeMode: 'contain'}}/> */}
           <Image
             style={styles.tinyLogo}
             source={{
-              uri: 'https://th.bing.com/th/id/OIP.Y9Ggv_GmsWWjWgnvJOc1XQHaHa?w=183&h=183&c=7&r=0&o=5&dpr=2&pid=1.7',
+              uri: item?.image,
             }}
-            // resizeMode='cover'
           />
-          <View style={{marginHorizontal: responsiveWidth(3)}}>
+          <View style={{ marginHorizontal: responsiveWidth(3) }}>
             <Text numberOfLines={2} style={styles.title}>
               {item?.title}
             </Text>
 
             <Text
               numberOfLines={2}
-              style={[styles.title, {fontSize: responsiveFontSize(2)}]}>
+              style={[
+                styles.title,
+                { fontSize: responsiveFontSize(2) },
+              ]}>
               {item?.description}
             </Text>
 
-            <View style={{marginBottom: responsiveHeight(1)}}>
+            <View style={{ marginBottom: responsiveHeight(1) }}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -77,12 +91,8 @@ const FoodCardTwo = ({
                     $230
                   </Text>
                 </View>
-
               </View>
-              
             </View>
-
-            {/* <View style={{height: "0.1%"}}/> */}
           </View>
         </View>
       </TouchableOpacity>
@@ -90,12 +100,18 @@ const FoodCardTwo = ({
   );
 };
 
-const FoodCard = ({list,setRatings}) => {
+type FoodCardListProps = {
+  list: Item[];
+};
+
+const FoodCard: React.FC<FoodCardListProps> = ({ list }) => {
   return (
     <FlatList
       data={list}
-      renderItem={({item, index}) => <FoodCardTwo setRatings={setRatings} key={index} item={item} />}
-      keyExtractor={(item,index) => item + index}
+      renderItem={({ item, index }) => (
+        <FoodCardTwo key={index} item={item} />
+      )}
+      keyExtractor={(item, index) => index.toString()}
       showsVerticalScrollIndicator={false}
       initialNumToRender={5}
     />
@@ -112,13 +128,11 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   dividerText: {
-    //   marginLeft: responsiveWidth(2),
     color: '#74747B',
     fontSize: responsiveFontSize(2.1),
   },
   tinyLogo: {
     height: responsiveHeight(30),
     width: responsiveWidth(91),
-    // aspectRatio: 7 / 4.1,
   },
 });

@@ -143,18 +143,18 @@ const Home = () => {
 
   const snapPoints = useMemo(() => ['25%', '40%'], []);
 
-  const applyFiletrs = (selectedIngredients, ratings, vergetarian) => {
-    let showIncredients = false;
+  const applyFiletrs = (selectedSpecialities, ratings, vergetarian) => {
+    let showSpecialities = false;
     let showRatings = false;
     let showVergetarian = false;
 
-    if (selectedIngredients?.length) {
+    if (selectedSpecialities?.length) {
       filteredSpecialities = lists.filter(item => {
-        return selectedIngredients.some(ingredient =>
+        return selectedSpecialities.some(ingredient =>
           item.specialties.includes(ingredient),
         ); // if you  want all incredents so you can do every
       });
-      showIncredients = true;
+      showSpecialities = true;
     }
 
     if (ratings) {
@@ -171,7 +171,7 @@ const Home = () => {
       showVergetarian = true;
     }
 
-    if (showIncredients || showRatings || showVergetarian) {
+    if (showSpecialities || showRatings || showVergetarian) {
       let temp = [
         ...filteredSpecialities,
         ...filteredRatings,

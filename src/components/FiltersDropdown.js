@@ -14,7 +14,7 @@ import {
 import UpArrow from '../assets/UpArrow';
 import DownArrow from '../assets/DownArrow';
 
-const FiltersDropdown = ({children, dropDownTitle, RenderChips}) => {
+const FiltersDropdown = ({children, dropDownTitle}) => {
   // console.log(children);
   const [expanded, setExpanded] = useState(false);
   return (
@@ -36,7 +36,6 @@ const FiltersDropdown = ({children, dropDownTitle, RenderChips}) => {
             </Text>
             {expanded ? <UpArrow /> : <DownArrow />}
           </View>
-          {RenderChips}
         </View>
       </CollapseHeader>
       <CollapseBody>{children}</CollapseBody>
